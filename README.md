@@ -1,0 +1,24 @@
+# Traffic Congestion Prediction using Digital Twin
+
+## Project Overview
+This project aims to build a digital twin for traffic congestion prediction using:
+- TomTom API for real-world traffic data
+- SUMO for traffic simulation
+- TraCI for simulation control
+- Machine Learning for congestion prediction
+
+## Project Goals
+- Collect traffic flow data
+- Predict congestion levels
+- Simulate traffic conditions
+- Compare real vs simulated traffic
+
+## Folder Structure
+- `data/` → raw and processed datasets
+- `src/` → source code
+- `sumo/` → SUMO simulation files
+- `models/` → trained ML models
+- `reports/` → outputs, plots, results
+
+## Status
+Project setup in progress.

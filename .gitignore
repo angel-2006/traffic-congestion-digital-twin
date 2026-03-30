@@ -1,0 +1,10 @@
+traffic_env/
+__pycache__/
+*.pyc
+.env
+.ipynb_checkpoints/
+data/raw/*.csv
+data/processed/*.csv
+models/*.pkl
+sumo/outputs/
+.vscode/
