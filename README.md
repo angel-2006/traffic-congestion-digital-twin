@@ -42,3 +42,9 @@ Implemented multi-location traffic data collection using TomTom Flow Segment Dat
 - Fetches live traffic flow data for each point
 - Extracts useful congestion-related features
 - Saves output into CSV format
+
+## Automated Data Collection
+The traffic data pipeline now supports:
+- repeated live traffic collection
+- appending new records into a growing CSV dataset
+- scheduled collection every 10 minutes

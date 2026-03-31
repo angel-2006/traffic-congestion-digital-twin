@@ -1,3 +1,4 @@
+import os
 import requests
 import pandas as pd
 from datetime import datetime
@@ -6,6 +7,7 @@ from src.data_collection.config import TOMTOM_API_KEY
 from src.data_collection.locations import TRAFFIC_POINTS
 
 BASE_URL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json"
+OUTPUT_PATH = "data/raw/tomtom_traffic_data.csv"
 
 
 def fetch_traffic_data(lat, lon):
@@ -67,19 +69,27 @@ def collect_all_locations():
     return collected_data
 
 
-def save_to_csv(data):
+def append_to_csv(data):
     if not data:
         print("No data to save.")
         return
 
-    df = pd.DataFrame(data)
-    output_path = "data/raw/tomtom_traffic_data.csv"
-    df.to_csv(output_path, index=False)
+    new_df = pd.DataFrame(data)
 
-    print(f"\nData saved successfully to: {output_path}")
-    print(df)
+    if os.path.exists(OUTPUT_PATH):
+        existing_df = pd.read_csv(OUTPUT_PATH)
+        combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+    else:
+        combined_df = new_df
+
+    combined_df.to_csv(OUTPUT_PATH, index=False)
+
+    print(f"\nData appended successfully to: {OUTPUT_PATH}")
+    print(f"Total rows now: {len(combined_df)}")
+    print("\nLatest collected rows:")
+    print(new_df)
 
 
 if __name__ == "__main__":
     all_data = collect_all_locations()
-    save_to_csv(all_data)
+    append_to_csv(all_data)
