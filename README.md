@@ -33,3 +33,12 @@ A Python virtual environment is used for dependency management.
 - Visualization: matplotlib, seaborn, plotly, folium
 - Geospatial: geopandas, shapely, osmnx
 - Scheduling: schedule
+
+## Step Completed
+Implemented multi-location traffic data collection using TomTom Flow Segment Data API.
+
+## Current Data Pipeline
+- Reads predefined traffic observation points
+- Fetches live traffic flow data for each point
+- Extracts useful congestion-related features
+- Saves output into CSV format
