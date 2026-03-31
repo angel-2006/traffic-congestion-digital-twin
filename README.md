@@ -22,3 +22,14 @@ This project aims to build a digital twin for traffic congestion prediction usin
 
 ## Status
 Project setup in progress.
+
+## Environment Setup
+A Python virtual environment is used for dependency management.
+
+## Installed Libraries
+- Data handling: pandas, numpy
+- API access: requests, python-dotenv
+- ML: scikit-learn, xgboost, lightgbm
+- Visualization: matplotlib, seaborn, plotly, folium
+- Geospatial: geopandas, shapely, osmnx
+- Scheduling: schedule
