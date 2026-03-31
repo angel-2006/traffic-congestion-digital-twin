@@ -47,4 +47,4 @@ Implemented multi-location traffic data collection using TomTom Flow Segment Dat
 The traffic data pipeline now supports:
 - repeated live traffic collection
 - appending new records into a growing CSV dataset
-- scheduled collection every 10 minutes
+- scheduled collection every 5 minutes
