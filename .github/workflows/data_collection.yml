@@ -27,7 +27,7 @@ jobs:
         run: pip install requests pandas
 
       - name: Run script
-        run: python your_script_name.py
+        run: python src/fetch_tomtom_data.py
 
       - name: Commit and push data
         run: |
