@@ -4,9 +4,10 @@ on:
   schedule:
     - cron: "*/5 * * * *"   # every 5 minutes
   workflow_dispatch:
+  
 permissions:
   contents: write
-  
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -35,4 +36,4 @@ jobs:
         run: |
           git add data/*.csv
           git commit -m "Update traffic data" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
