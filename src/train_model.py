@@ -1,82 +1,94 @@
+"""
+train_model.py
+--------------
+Trains the congestion classifier using REAL data collected from the TomTom API.
+
+Features used (all sourced from TomTom API responses):
+    currentSpeed, freeFlowSpeed, speed_ratio, delay_seconds, roadClosure
+
+Target: congestion_label  (Low / Medium / High)
+
+Run this script after you have collected enough rows via fetch_tomtom_data.py.
+A minimum of ~30 rows is needed; 200+ rows gives reliable results.
+"""
+
 import os
 import pandas as pd
 import joblib
-
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 # -------------------------------
-# Paths
+# PATHS
 # -------------------------------
-DATA_PATH = "data/traffic_data.csv"
-MODEL_PATH = "models/congestion_model.pkl"
+TRAINING_FILE = "data/tomtom_training_data.csv"
+MODEL_PATH    = "models/congestion_model.pkl"
+
+os.makedirs("models", exist_ok=True)
 
 # -------------------------------
-# Load dataset
+# LOAD REAL DATA
 # -------------------------------
-df = pd.read_csv(DATA_PATH)
+if not os.path.exists(TRAINING_FILE):
+    raise FileNotFoundError(
+        f"Training file not found: {TRAINING_FILE}\n"
+        "Run fetch_tomtom_data.py several times (or schedule it) to collect data first."
+    )
 
-print("First 5 rows of dataset:")
-print(df.head())
+df = pd.read_csv(TRAINING_FILE)
+print(f"Loaded {len(df)} rows from {TRAINING_FILE}")
 
-print("\nDataset shape:", df.shape)
-print("\nLabel counts:")
+# Drop any incomplete rows
+df.dropna(inplace=True)
+
+if len(df) < 10:
+    raise ValueError(
+        f"Only {len(df)} complete rows found. Collect more data before training."
+    )
+
+print("\nLabel distribution:")
 print(df["congestion_label"].value_counts())
 
 # -------------------------------
-# Features and target
+# FEATURES & TARGET
 # -------------------------------
-X = df[[
-    "vehicle_count",
-    "avg_speed",
-    "total_waiting_time",
-    "stopped_vehicles"
-]]
+FEATURES = ["currentSpeed", "freeFlowSpeed", "speed_ratio", "delay_seconds", "roadClosure"]
+TARGET   = "congestion_label"
 
-y = df["congestion_label"]
+X = df[FEATURES]
+y = df[TARGET]
 
 # -------------------------------
-# Train-test split
+# TRAIN / TEST SPLIT
 # -------------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-print("\nTraining samples:", len(X_train))
-print("Testing samples:", len(X_test))
+print(f"\nTraining samples : {len(X_train)}")
+print(f"Testing samples  : {len(X_test)}")
 
 # -------------------------------
-# Train model
+# TRAIN
 # -------------------------------
-model = RandomForestClassifier(
-    n_estimators=100,
-    random_state=42
-)
-
+model = RandomForestClassifier(n_estimators=200, random_state=42)
 model.fit(X_train, y_train)
 
 # -------------------------------
-# Predictions
+# EVALUATE
 # -------------------------------
-y_pred = model.predict(X_test)
-
-# -------------------------------
-# Evaluation
-# -------------------------------
+y_pred   = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
-print("\nModel Accuracy:", round(accuracy * 100, 2), "%")
+print(f"\nAccuracy : {accuracy * 100:.2f}%")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
-
 print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 # -------------------------------
-# Save model
+# SAVE
 # -------------------------------
-os.makedirs("models", exist_ok=True)
-joblib.dump(model, MODEL_PATH)
-
-print(f"\nModel saved successfully to: {MODEL_PATH}")
+joblib.dump({"model": model, "features": FEATURES}, MODEL_PATH)
+print(f"\n✅ Model saved to: {MODEL_PATH}")

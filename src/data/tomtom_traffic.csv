@@ -1,0 +1,3 @@
+timestamp,currentSpeed,freeFlowSpeed,currentTravelTime,freeFlowTravelTime,roadClosure,speed_ratio,delay_seconds,congestion_label
+2026-04-30 00:38:15,34,34,512,512,False,1.0,0,Low
+2026-04-30 00:41:41,34,34,512,512,False,1.0,0,Low
