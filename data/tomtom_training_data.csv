@@ -472,3 +472,4 @@ currentSpeed,freeFlowSpeed,speed_ratio,delay_seconds,roadClosure,congestion_labe
 22,34,0.6471,280,0,Medium
 22,35,0.6286,295,0,Medium
 23,34,0.6765,245,0,Medium
+29,35,0.8286,103,0,Low
