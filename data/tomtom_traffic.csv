@@ -575,3 +575,4 @@ timestamp,currentSpeed,freeFlowSpeed,currentTravelTime,freeFlowTravelTime,confid
 2026-06-14 10:00:08,24,34,726,512,False,0.7059,214,Low
 2026-06-14 12:06:19,21,33,829,528,False,0.6364,301,Medium
 2026-06-14 14:25:06,23,33,757,528,False,0.697,229,Medium
+2026-06-14 16:04:00,34,34,512,512,False,1.0,0,Low
